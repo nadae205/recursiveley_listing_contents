@@ -1,0 +1,91 @@
+import os
+
+
+def list_directory_content():
+    while True:
+        user_input = input().strip().lower()
+
+        if user_input == 'q':
+            print()
+            break
+        elif user_input == 'l':
+            folder_path = input().strip()
+
+            try:
+                if not os.path.exists(folder_path):
+                    raise FileNotFoundError("Folder path does not exist.")
+                elif not os.path.isdir(folder_path):
+                    raise FileNotFoundError("Invalid folder path.")
+
+                print("-")
+                option = input().strip().lower()
+
+                if option == 'r':
+                    list_contents_recursive(folder_path)
+                    print("-")
+                elif option == 'f':
+                    list_files_only(folder_path)
+                elif option == 's':
+                    file_name = input("Enter file name: ").strip()
+                    list_files_by_name(folder_path, file_name)
+                elif option == 'e':
+                    file_extension = input("Enter file extension: ").strip()
+                    list_files_by_extension(folder_path, file_extension)
+                else:
+                    print("Invalid option.")
+            except FileNotFoundError as e:
+                print(f"Error: {e}")
+        else:
+            print("Invalid command.")
+
+
+def list_contents_recursive(folder_path):
+    for root, dirs, files in os.walk(folder_path):
+        print(f"Contents of {root}:")
+        for file in files:
+            print(f"- {file}")
+
+
+def list_files_only(folder_path):
+    print("Files only:")
+    for file in os.listdir(folder_path):
+        if os.path.isfile(os.path.join(folder_path, file)):
+            print(f"- {file}")
+
+
+def list_files_by_name(folder_path, file_name):
+    print(f"Files matching '{file_name}':")
+    for file in os.listdir(folder_path):
+        file_path = os.path.join(folder_path, file)
+        if os.path.isfile(file_path) and file_name in file:
+            print(f"- {file}")
+
+
+def list_files_by_extension(folder_path, file_extension):
+    print(f"Files with extension '{file_extension}':")
+    for file in os.listdir(folder_path):
+        if (os.path.isfile(os.path.join(folder_path, file)) and
+                file.endswith(file_extension)):
+            print(f"- {file}")
+
+
+list_directory_content()
+                print("-")
+                option = input().strip().lower()
+                if option == 'r':
+                    list_contents_recursive(folder_path)
+                    print("-")
+                elif option == 'f':
+                    list_files_only(folder_path)
+                elif option == 's':
+                    file_name = input("Enter file name: ").strip()
+                    list_files_by_name(folder_path, file_name)
+                elif option == 'e':
+                    file_extension = input("Enter file extension: ").strip()
+                    list_files_by_extension(folder_path, file_extension)
+                else:
+                    print("Invalid option.")
+            except FileNotFoundError as e:
+                print(f"Error: {e}")
+        else:
+            print("Invalid command.")
